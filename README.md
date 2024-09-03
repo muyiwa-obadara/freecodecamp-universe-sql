@@ -1,7 +1,3 @@
-Sure! Here's a sample README for the FreeCodeCamp Universe SQL project:
-
----
-
 # FreeCodeCamp Universe SQL Project
 
 Welcome to the FreeCodeCamp Universe SQL project! This project is part of the FreeCodeCamp Relational Database curriculum, where you'll create and manage a database of celestial bodies.

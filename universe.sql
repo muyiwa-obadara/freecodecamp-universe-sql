@@ -171,11 +171,36 @@ ALTER SEQUENCE public.planet_planet_id_seq OWNED BY public.planet.planet_id;
 
 CREATE TABLE public.planet_stars (
     planet_id integer NOT NULL,
-    star_id integer NOT NULL
+    star_id integer NOT NULL,
+    name character varying(30) DEFAULT 'dummy'::character varying,
+    planet_stars_id integer NOT NULL,
+    record_id character varying(4) DEFAULT 'id00'::character varying
 );
 
 
 ALTER TABLE public.planet_stars OWNER TO freecodecamp;
+
+--
+-- Name: planet_stars_planet_stars_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
+--
+
+CREATE SEQUENCE public.planet_stars_planet_stars_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.planet_stars_planet_stars_id_seq OWNER TO freecodecamp;
+
+--
+-- Name: planet_stars_planet_stars_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
+--
+
+ALTER SEQUENCE public.planet_stars_planet_stars_id_seq OWNED BY public.planet_stars.planet_stars_id;
+
 
 --
 -- Name: star; Type: TABLE; Schema: public; Owner: freecodecamp
@@ -237,6 +262,13 @@ ALTER TABLE ONLY public.moon ALTER COLUMN moon_id SET DEFAULT nextval('public.mo
 --
 
 ALTER TABLE ONLY public.planet ALTER COLUMN planet_id SET DEFAULT nextval('public.planet_planet_id_seq'::regclass);
+
+
+--
+-- Name: planet_stars planet_stars_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.planet_stars ALTER COLUMN planet_stars_id SET DEFAULT nextval('public.planet_stars_planet_stars_id_seq'::regclass);
 
 
 --
@@ -307,9 +339,9 @@ INSERT INTO public.planet VALUES (14, 'White Hole', 234, 232, 234.50, '12th Near
 -- Data for Name: planet_stars; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.planet_stars VALUES (2, 1);
-INSERT INTO public.planet_stars VALUES (2, 3);
-INSERT INTO public.planet_stars VALUES (2, 2);
+INSERT INTO public.planet_stars VALUES (2, 1, 'dummy', 1, 'id00');
+INSERT INTO public.planet_stars VALUES (2, 3, 'dummy', 2, 'id01');
+INSERT INTO public.planet_stars VALUES (2, 2, 'dummy', 3, 'id02');
 
 
 --
@@ -343,6 +375,13 @@ SELECT pg_catalog.setval('public.moon_moon_id_seq', 40, true);
 --
 
 SELECT pg_catalog.setval('public.planet_planet_id_seq', 14, true);
+
+
+--
+-- Name: planet_stars_planet_stars_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
+--
+
+SELECT pg_catalog.setval('public.planet_stars_planet_stars_id_seq', 3, true);
 
 
 --
@@ -405,7 +444,15 @@ ALTER TABLE ONLY public.planet
 --
 
 ALTER TABLE ONLY public.planet_stars
-    ADD CONSTRAINT planet_stars_pkey PRIMARY KEY (planet_id, star_id);
+    ADD CONSTRAINT planet_stars_pkey PRIMARY KEY (planet_stars_id);
+
+
+--
+-- Name: planet_stars planet_stars_record_id_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.planet_stars
+    ADD CONSTRAINT planet_stars_record_id_key UNIQUE (record_id);
 
 
 --
